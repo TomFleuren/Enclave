@@ -1,0 +1,24 @@
+name: Feature request
+description: Suggest something Enclave should do
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The situation you are in, rather than the solution you have in mind.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would help?
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else?
+      description: |
+        Enclave has no server and makes no network requests, and that is not going to change.
+        Ideas that fit inside that constraint are the ones most likely to be picked up.

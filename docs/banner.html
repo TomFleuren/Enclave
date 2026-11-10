@@ -1,0 +1,580 @@
+<!doctype html>
+<!--
+  Source of the README banner. Rendered to docs/banner.png by `npm run capture`.
+  Everything shown is illustrative: the accounts, codes and passwords are made up.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Enclave banner</title>
+    <style>
+      :root {
+        --text: #eceef6;
+        --muted: #9aa0b6;
+        --faint: #636a82;
+        --accent: #8492ff;
+        --accent-strong: #5b6cff;
+        --border: rgb(255 255 255 / 0.1);
+        --sans: 'Inter', 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+        --mono: 'Cascadia Code', 'SF Mono', Consolas, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+      }
+
+      .banner {
+        position: relative;
+        width: 1280px;
+        height: 640px;
+        overflow: hidden;
+        background:
+          radial-gradient(620px 460px at 14% 8%, rgb(91 108 255 / 0.42), transparent 66%),
+          radial-gradient(560px 440px at 92% 14%, rgb(168 85 247 / 0.3), transparent 64%),
+          radial-gradient(620px 420px at 72% 104%, rgb(34 211 238 / 0.2), transparent 66%),
+          radial-gradient(520px 400px at 6% 100%, rgb(99 102 241 / 0.26), transparent 64%),
+          #07080d;
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 14px;
+        line-height: 1.4;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .card {
+        position: absolute;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: rgb(255 255 255 / 0.055);
+        box-shadow:
+          inset 0 1px 0 rgb(255 255 255 / 0.08),
+          0 30px 60px -24px rgb(0 0 0 / 0.75);
+        backdrop-filter: blur(24px) saturate(150%);
+      }
+
+      .title {
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+
+      .muted {
+        color: var(--muted);
+        font-size: 12.5px;
+      }
+
+      /* Wordmark ---------------------------------------------------------- */
+
+      .wordmark {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 22px;
+        padding-bottom: 8px;
+      }
+
+      .wordmark span {
+        /* Room for the tight tracking, so the gradient clip does not shave the last letter. */
+        padding: 0 14px 0 0;
+        background: linear-gradient(180deg, #c2c9ff 0%, #8492ff 46%, #5262ff 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-family: 'Arial Rounded MT Bold', 'Nunito', 'Segoe UI Black', var(--sans);
+        font-size: 138px;
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 1;
+        filter: drop-shadow(0 18px 40px rgb(91 108 255 / 0.45));
+      }
+
+      .wordmark svg {
+        margin-top: 14px;
+        filter: drop-shadow(0 18px 40px rgb(91 108 255 / 0.45));
+      }
+
+      /* Settings card ------------------------------------------------------ */
+
+      .settings {
+        top: -22px;
+        left: 112px;
+        width: 286px;
+        padding: 38px 22px 14px;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 11px 0;
+        font-weight: 500;
+      }
+
+      .row + .row {
+        border-top: 1px solid rgb(255 255 255 / 0.07);
+      }
+
+      .toggle {
+        position: relative;
+        width: 38px;
+        height: 22px;
+        border-radius: 999px;
+        background: rgb(255 255 255 / 0.12);
+      }
+
+      .toggle::after {
+        content: '';
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--muted);
+      }
+
+      .toggle.on {
+        background: var(--accent-strong);
+      }
+
+      .toggle.on::after {
+        left: 19px;
+        background: #fff;
+      }
+
+      /* One-time code card ------------------------------------------------- */
+
+      .otp {
+        top: -30px;
+        left: 452px;
+        width: 330px;
+        padding: 52px 22px 20px;
+      }
+
+      .account {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .account > div {
+        flex: 1;
+      }
+
+      .avatar {
+        display: grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        flex: none;
+        border-radius: 11px;
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .avatar.blue {
+        border: 1px solid rgb(132 146 255 / 0.3);
+        background: linear-gradient(145deg, rgb(132 146 255 / 0.4), rgb(91 108 255 / 0.14));
+        color: #d5daff;
+      }
+
+      .avatar.violet {
+        border: 1px solid rgb(192 132 252 / 0.3);
+        background: linear-gradient(145deg, rgb(192 132 252 / 0.4), rgb(147 51 234 / 0.14));
+        color: #ead5ff;
+      }
+
+      .avatar.teal {
+        border: 1px solid rgb(45 212 191 / 0.3);
+        background: linear-gradient(145deg, rgb(45 212 191 / 0.36), rgb(13 148 136 / 0.14));
+        color: #c8fff5;
+      }
+
+      .avatar.amber {
+        border: 1px solid rgb(251 191 36 / 0.3);
+        background: linear-gradient(145deg, rgb(251 191 36 / 0.34), rgb(217 119 6 / 0.14));
+        color: #ffefc2;
+      }
+
+      .name {
+        font-weight: 600;
+      }
+
+      .digits {
+        margin-top: 14px;
+        color: #c3caff;
+        font-family: var(--mono);
+        font-size: 36px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+      }
+
+      /* Code snippet ------------------------------------------------------- */
+
+      .snippet {
+        top: -26px;
+        left: 836px;
+        width: 348px;
+        padding: 44px 20px 18px;
+        font-family: var(--mono);
+        font-size: 11.5px;
+        line-height: 1.75;
+        white-space: pre;
+        color: #c9cee0;
+      }
+
+      .snippet .ln {
+        display: inline-block;
+        width: 22px;
+        color: var(--faint);
+      }
+
+      .snippet .kw {
+        color: #c4a7ff;
+      }
+
+      .snippet .fn {
+        color: #8fb4ff;
+      }
+
+      .snippet .str {
+        color: #9be3b1;
+      }
+
+      .snippet .num {
+        color: #f5c078;
+      }
+
+      .snippet .hl {
+        display: block;
+        margin: 0 -20px;
+        padding: 0 20px;
+        background: rgb(132 146 255 / 0.16);
+      }
+
+      .pill {
+        position: absolute;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 6px 13px;
+        border-radius: 999px;
+        font-size: 12.5px;
+        font-weight: 600;
+      }
+
+      .pill.green {
+        top: 196px;
+        left: 848px;
+        border: 1px solid rgb(74 222 128 / 0.28);
+        background: rgb(74 222 128 / 0.12);
+        color: #9af0b8;
+      }
+
+      .pill.dark {
+        top: 196px;
+        left: 1052px;
+        border: 1px solid var(--border);
+        background: rgb(20 22 32 / 0.92);
+        color: var(--text);
+      }
+
+      /* Generator card ----------------------------------------------------- */
+
+      .generator {
+        top: 446px;
+        left: 112px;
+        width: 286px;
+        height: 260px;
+        padding: 20px 22px;
+      }
+
+      .password {
+        margin-top: 14px;
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgb(0 0 0 / 0.3);
+        font-family: var(--mono);
+        font-size: 15px;
+        line-height: 1.5;
+        letter-spacing: 0.02em;
+        word-break: break-all;
+      }
+
+      .password .d {
+        color: #8fb4ff;
+      }
+
+      .password .s {
+        color: #f0a6ff;
+      }
+
+      .bars {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 4px;
+        margin-top: 14px;
+      }
+
+      .bars i {
+        height: 4px;
+        border-radius: 999px;
+        background: #4ade80;
+      }
+
+      /* Unlock ------------------------------------------------------------- */
+
+      .unlock {
+        top: 446px;
+        left: 452px;
+        width: 330px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 10px 10px 20px;
+        border-radius: 999px;
+        color: var(--muted);
+      }
+
+      .unlock .dots {
+        flex: 1;
+        letter-spacing: 0.22em;
+      }
+
+      .unlock .go {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: linear-gradient(180deg, #7684ff, var(--accent-strong));
+        color: #fff;
+      }
+
+      .entry {
+        top: 522px;
+        left: 452px;
+        width: 330px;
+        height: 200px;
+        padding: 18px 20px;
+      }
+
+      .button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 36px;
+        margin-top: 16px;
+        border-radius: 10px;
+        background: linear-gradient(180deg, #7684ff, var(--accent-strong));
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      /* Vault list --------------------------------------------------------- */
+
+      .vault {
+        top: 430px;
+        left: 836px;
+        width: 348px;
+        height: 280px;
+        padding: 18px 18px 0;
+      }
+
+      .vault header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .small-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 11px;
+        border-radius: 8px;
+        background: linear-gradient(180deg, #7684ff, var(--accent-strong));
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .search {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 12px 0 8px;
+        padding: 8px 12px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: rgb(0 0 0 / 0.3);
+        color: var(--faint);
+        font-size: 13px;
+      }
+
+      .vault .account {
+        padding: 8px 6px;
+        border-radius: 12px;
+      }
+
+      .vault .account.selected {
+        border: 1px solid var(--border);
+        background: rgb(255 255 255 / 0.08);
+      }
+
+      .badge {
+        padding: 2px 7px;
+        border: 1px solid rgb(132 146 255 / 0.28);
+        border-radius: 999px;
+        background: rgb(132 146 255 / 0.16);
+        color: #b9c2ff;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      <!-- Top row -->
+      <div class="card settings">
+        <div class="title">Security</div>
+        <div class="row" style="margin-top: 6px">Lock automatically <span class="toggle on"></span></div>
+        <div class="row">Lock when hidden <span class="toggle on"></span></div>
+        <div class="row">Clear clipboard <span class="toggle"></span></div>
+      </div>
+
+      <div class="card otp">
+        <div class="account">
+          <span class="avatar blue">G</span>
+          <div>
+            <div class="name">GitHub</div>
+            <div class="muted">ada@example.com</div>
+          </div>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke-width="2.5">
+            <circle cx="12" cy="12" r="9" stroke="rgb(255 255 255 / 0.12)" />
+            <circle
+              cx="12"
+              cy="12"
+              r="9"
+              stroke="#8492ff"
+              stroke-linecap="round"
+              stroke-dasharray="56.5"
+              stroke-dashoffset="17"
+              transform="rotate(-90 12 12)"
+            />
+          </svg>
+        </div>
+        <div class="digits">482 913</div>
+      </div>
+
+      <div class="card snippet"><span class="ln">4</span><span class="kw">const</span> key = <span class="kw">await</span> crypto.subtle.<span class="fn">deriveKey</span>(
+<span class="ln">5</span>  { name: <span class="str">'PBKDF2'</span>, hash: <span class="str">'SHA-256'</span>,
+<span class="hl"><span class="ln">6</span>    salt, iterations: <span class="num">600_000</span> },</span><span class="ln">7</span>  baseKey,
+<span class="hl"><span class="ln">8</span>  { name: <span class="str">'AES-GCM'</span>, length: <span class="num">256</span> },</span><span class="ln">9</span>  <span class="kw">false</span>, [<span class="str">'encrypt'</span>, <span class="str">'decrypt'</span>]);</div>
+
+      <span class="pill green">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z" /></svg>
+        Zero network requests
+      </span>
+      <span class="pill dark">Password copied</span>
+
+      <!-- Wordmark -->
+      <div class="wordmark">
+        <svg width="112" height="112" viewBox="0 0 64 64" fill="none">
+          <defs>
+            <linearGradient id="mark" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#c2c9ff" />
+              <stop offset="0.46" stop-color="#8492ff" />
+              <stop offset="1" stop-color="#5262ff" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M32 8l20 7.5V31c0 13-8.2 22.8-20 26-11.8-3.2-20-13-20-26V15.5z"
+            stroke="url(#mark)"
+            stroke-width="6.5"
+            stroke-linejoin="round"
+          />
+          <circle cx="32" cy="28" r="6" fill="url(#mark)" />
+          <path d="M32 32v10" stroke="url(#mark)" stroke-width="6" stroke-linecap="round" />
+        </svg>
+        <span>enclave</span>
+      </div>
+
+      <!-- Bottom row -->
+      <div class="card generator">
+        <div class="title">Generator</div>
+        <div class="muted">20 characters · 128 bits</div>
+        <div class="password">kV<span class="d">7</span><span class="s">#</span>tq<span class="d">2</span><span class="s">!</span>Zp<span class="d">9</span><span class="s">$</span>Lm<span class="d">4</span><span class="s">&amp;</span>Wx<span class="d">8</span><span class="s">*</span></div>
+        <div class="bars"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+
+      <div class="card unlock">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="5" y="11" width="14" height="9" rx="2.5" />
+          <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+        </svg>
+        <span class="dots">••••••••••••••</span>
+        <span class="go">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
+        </span>
+      </div>
+
+      <div class="card entry">
+        <div class="account">
+          <span class="avatar violet">P</span>
+          <div>
+            <div class="name">Proton Mail</div>
+            <div class="muted">Password, username and one-time code</div>
+          </div>
+        </div>
+        <div class="button">Copy password</div>
+      </div>
+
+      <div class="card vault">
+        <header>
+          <div class="title">Vault</div>
+          <span class="small-button">+ New item</span>
+        </header>
+        <div class="search">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5" /><path d="M16 16l4 4" /></svg>
+          Search
+        </div>
+        <div class="account selected">
+          <span class="avatar blue">G</span>
+          <div>
+            <div class="name">GitHub</div>
+            <div class="muted">ada@example.com</div>
+          </div>
+          <span class="badge">2FA</span>
+        </div>
+        <div class="account">
+          <span class="avatar teal">C</span>
+          <div>
+            <div class="name">Cloudflare</div>
+            <div class="muted">ada@example.com</div>
+          </div>
+          <span class="badge">2FA</span>
+        </div>
+        <div class="account">
+          <span class="avatar amber">F</span>
+          <div>
+            <div class="name">Figma</div>
+            <div class="muted">ada@example.com</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

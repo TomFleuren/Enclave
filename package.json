@@ -1,0 +1,61 @@
+{
+  "name": "enclave",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A local-first credential vault and authenticator that encrypts everything in your browser with the Web Crypto API.",
+  "license": "MIT",
+  "author": "Tom Fleuren",
+  "homepage": "https://github.com/TomFleuren/Enclave#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TomFleuren/Enclave.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TomFleuren/Enclave/issues"
+  },
+  "keywords": [
+    "password-manager",
+    "authenticator",
+    "totp",
+    "web-crypto",
+    "aes-gcm",
+    "pbkdf2",
+    "local-first",
+    "react",
+    "typescript"
+  ],
+  "type": "module",
+  "engines": {
+    "node": "^22.13.0 || >=24.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "node scripts/e2e.mjs",
+    "check": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "capture": "node scripts/capture.mjs"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "eslint": "^10.14.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.2",
+    "vite": "^8.3.7",
+    "vitest": "^5.1.0"
+  }
+}
