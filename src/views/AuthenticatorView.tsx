@@ -1,5 +1,6 @@
 import { Avatar } from '../components/Avatar';
 import { Icon } from '../components/Icon';
+import { PageHead } from '../components/PageHead';
 import { CodeDigits, CountdownRing } from '../components/TotpCode';
 import type { TotpConfig } from '../crypto/totp';
 import { useTotp } from '../hooks/useTotp';
@@ -15,7 +16,7 @@ function CodeCard({ item, config }: { item: VaultItem; config: TotpConfig }) {
   return (
     <button
       type="button"
-      className="code-card glass"
+      className="code-card"
       onClick={() => reading.code && void copy(reading.code, 'Code', { sensitive: true })}
       aria-label={`Copy the code for ${item.title}`}
     >
@@ -44,21 +45,18 @@ export function AuthenticatorView({ onOpenVault }: { onOpenVault: () => void }) 
 
   return (
     <div className="page">
-      <header className="view-header">
-        <div>
-          <h1 className="view-title">Authenticator</h1>
-          <p className="view-subtitle">One-time codes for your two-factor logins. Select one to copy it.</p>
-        </div>
-      </header>
+      <PageHead tag="authenticator" title="Authenticator">
+        One-time codes for your two-factor logins. Select one to copy it.
+      </PageHead>
 
       {items.length > 0 ? (
         <div className="code-grid">
           {items.map((item) => item.totp && <CodeCard key={item.id} item={item} config={item.totp} />)}
         </div>
       ) : (
-        <div className="placeholder placeholder--inline glass">
+        <div className="placeholder placeholder--inline">
           <span className="placeholder__icon">
-            <Icon name="clock" size={30} />
+            <Icon name="clock" size={24} />
           </span>
           <h2 className="placeholder__title">No codes yet</h2>
           <p className="placeholder__text">
@@ -66,7 +64,6 @@ export function AuthenticatorView({ onOpenVault }: { onOpenVault: () => void }) 
             here.
           </p>
           <button type="button" className="button button--primary" onClick={onOpenVault}>
-            <Icon name="vault" />
             Go to the vault
           </button>
         </div>

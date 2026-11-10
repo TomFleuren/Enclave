@@ -26,11 +26,11 @@ const MASK = '•'.repeat(12);
 function Row({ label, children, actions }: { label: string; children: ReactNode; actions?: ReactNode }) {
   return (
     <div className="detail-row">
-      <div className="detail-row__content">
-        <span className="detail-row__label">{label}</span>
+      <span className="detail-row__label">{label}</span>
+      <div className="detail-row__box">
         <div className="detail-row__value">{children}</div>
+        {actions && <div className="detail-row__actions">{actions}</div>}
       </div>
-      {actions && <div className="detail-row__actions">{actions}</div>}
     </div>
   );
 }
@@ -73,7 +73,7 @@ export function ItemDetail({ item, onBack, onEdit, onDelete, onToggleFavorite }:
   const href = toWebUrl(item.url);
 
   return (
-    <article className="panel glass detail">
+    <article className="detail">
       <header className="detail__header">
         <button type="button" className="icon-button detail__back" onClick={onBack} aria-label="Back to the list">
           <Icon name="back" />

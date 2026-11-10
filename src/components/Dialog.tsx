@@ -23,7 +23,7 @@ export function Dialog({ title, onClose, children }: DialogProps) {
   return (
     <dialog
       ref={ref}
-      className="dialog glass"
+      className="dialog"
       aria-label={title}
       onCancel={(event) => {
         event.preventDefault();
@@ -56,11 +56,12 @@ export function ConfirmDialog({ title, message, confirmLabel, onConfirm, onCance
     <Dialog title={title} onClose={onCancel}>
       <p className="dialog__text">{message}</p>
       <div className="dialog__actions">
-        <button type="button" className="button" onClick={onCancel} autoFocus>
-          Cancel
-        </button>
-        <button type="button" className="button button--danger" onClick={onConfirm}>
+        <button type="button" className="button button--large button--danger" onClick={onConfirm}>
           {confirmLabel}
+        </button>
+        {/* Focus starts on the safe choice, so Enter does not destroy anything. */}
+        <button type="button" className="button button--large button--ghost" onClick={onCancel} autoFocus>
+          Cancel
         </button>
       </div>
     </Dialog>

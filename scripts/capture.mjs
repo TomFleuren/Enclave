@@ -11,12 +11,16 @@
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createServer } from 'vite';
-import { launchBrowser } from './lib/browser.mjs';
+import { launchBrowser, sleep } from './lib/browser.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const docs = join(root, 'docs');
 
 async function save(page, file) {
+  // Wait for the fonts, so that no shot is taken in the fallback typeface.
+  await page.evaluate(
+    `Promise.all([...document.fonts].map((font) => font.load())).then(() => document.fonts.ready).then(() => true)`,
+  );
   await page.screenshot(file);
   console.log(`wrote ${relative(root, file).replaceAll('\\', '/')}`);
 }
@@ -35,6 +39,11 @@ async function captureApp(browser, origin) {
     page.evaluate(
       `[...document.querySelectorAll('.nav-item')].find((item) => item.textContent.includes(${JSON.stringify(label)})).click()`,
     );
+
+  // One-time codes turn red in their last seconds. Start early in a 30-second
+  // period, so that the shots show them as they look most of the time.
+  const intoPeriod = Date.now() % 30_000;
+  if (intoPeriod > 12_000) await sleep(30_000 - intoPeriod);
 
   const page = await browser.openPage({ width: 1440, height: 900, scale: 2 });
   await page.goto(`${origin}/#demo`);

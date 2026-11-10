@@ -1,5 +1,6 @@
 import type { FormEvent } from 'react';
 import { useState } from 'react';
+import type { IconName } from '../components/Icon';
 import { Icon } from '../components/Icon';
 import { PasswordInput } from '../components/PasswordInput';
 import { RestoreBackup } from '../components/RestoreBackup';
@@ -7,6 +8,40 @@ import { StrengthMeter } from '../components/StrengthMeter';
 import { useVault } from '../state/vault-context';
 import { MASTER_PASSWORD_MIN_LENGTH } from '../vault/model';
 import { AuthLayout } from './AuthLayout';
+
+const PROMISES: { icon: IconName; title: string; text: string }[] = [
+  {
+    icon: 'lock',
+    title: 'Encrypted before it is saved',
+    text: 'AES-256-GCM, with a key derived from your master password. Only ciphertext reaches storage.',
+  },
+  {
+    icon: 'shield',
+    title: 'No account, no server',
+    text: 'The page is not allowed to make network requests. What you store stays in this browser.',
+  },
+  {
+    icon: 'download',
+    title: 'Yours to back up',
+    text: 'Export an encrypted backup file whenever you like, and restore it in any browser.',
+  },
+];
+
+function Promises() {
+  return (
+    <ul className="promises">
+      {PROMISES.map(({ icon, title, text }) => (
+        <li key={title} className="promise">
+          <Icon name={icon} size={24} />
+          <div>
+            <h3 className="promise__title">{title}</h3>
+            <p className="promise__text">{text}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export function SetupScreen() {
   const { create } = useVault();
@@ -43,14 +78,9 @@ export function SetupScreen() {
   return (
     <AuthLayout
       title="Create your vault"
-      subtitle="Choose a master password. It is the only key to everything you store here."
-      footer={
-        <RestoreBackup
-          label="Restore from a backup instead"
-          className="link-button"
-          replacesExisting={false}
-        />
-      }
+      cardTitle="Choose a master password"
+      cardText="It is the only key to everything you store here."
+      after={<Promises />}
     >
       <form onSubmit={onSubmit} className="stack">
         <div className="field-group">
@@ -96,13 +126,19 @@ export function SetupScreen() {
 
         <button
           type="submit"
-          className="button button--primary button--large"
+          className="button button--large button--primary"
           disabled={busy || !acknowledged || password === '' || confirmation === ''}
         >
-          <Icon name="shield" />
           {busy ? 'Deriving key…' : 'Create vault'}
         </button>
       </form>
+
+      <RestoreBackup
+        label="Restore from a backup instead"
+        className="link-button"
+        showIcon={false}
+        replacesExisting={false}
+      />
     </AuthLayout>
   );
 }

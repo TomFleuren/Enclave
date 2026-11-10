@@ -108,6 +108,7 @@ try {
   const unlockWith = (password) =>
     run(`await type('Master password', ${JSON.stringify(password)}); await click('button', 'Unlock');`);
   const openSection = (label) => run(`await click('.nav-item', ${JSON.stringify(label)});`);
+  const lock = () => run(`await click('.header button', 'Lock');`);
 
   await browser.send('Browser.setDownloadBehavior', { behavior: 'allow', downloadPath: downloads });
   await load();
@@ -264,7 +265,7 @@ try {
     await run(`window.setTimeout = window.realSetTimeout;`);
     await run(`await click('button[aria-label="Copy code"]');`);
     await page.waitFor(`window.clipboardWrites.length === 4`, 'the code to be copied');
-    await openSection('Lock');
+    await lock();
     await page.waitFor(`window.clipboardWrites.length === 5`, 'the clipboard to be wiped on lock');
     assert.equal((await writes())[4], '');
 
@@ -322,7 +323,7 @@ try {
   });
 
   await step('lock removes the decrypted contents from the page', async () => {
-    await openSection('Lock');
+    await lock();
     await page.waitForSelector('.auth__card');
     assert.equal(await run(`return document.body.innerHTML.includes('Example Corp');`), false);
     await unlockWith(NEW_MASTER);

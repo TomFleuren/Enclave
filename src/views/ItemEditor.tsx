@@ -89,7 +89,7 @@ export function ItemEditor({ item, onSave, onCancel }: ItemEditorProps) {
   };
 
   return (
-    <form className="panel glass editor" onSubmit={onSubmit}>
+    <form className="editor" onSubmit={onSubmit}>
       <header className="panel__header">
         <h2 className="panel__title">{item ? 'Edit item' : 'New item'}</h2>
         <button type="button" className="icon-button" onClick={onCancel} aria-label="Cancel" title="Cancel">
@@ -196,11 +196,10 @@ export function ItemEditor({ item, onSave, onCancel }: ItemEditorProps) {
       )}
 
       <footer className="panel__footer">
-        <button type="button" className="button" onClick={onCancel}>
+        <button type="button" className="button button--large button--ghost" onClick={onCancel}>
           Cancel
         </button>
-        <button type="submit" className="button button--primary" disabled={saving}>
-          <Icon name="check" />
+        <button type="submit" className="button button--large button--primary" disabled={saving}>
           {saving ? 'Saving…' : 'Save'}
         </button>
       </footer>

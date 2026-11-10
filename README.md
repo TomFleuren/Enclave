@@ -186,6 +186,7 @@ concentrate.
 | `src/screens/`    | Setup, unlock and the unlocked workspace                             |
 | `src/views/`      | Vault, authenticator, generator and settings                         |
 | `src/components/` | Shared UI pieces and the icon set                                    |
+| `src/fonts/`      | The Geist typefaces, served from the page itself                     |
 | `scripts/`        | End-to-end test, screenshot capture and stand-alone decryption       |
 | `docs/`           | Vault format, banner source and screenshots                          |
 
@@ -203,3 +204,6 @@ than in a public issue.
 ## License
 
 MIT
+
+The bundled [Geist](https://github.com/vercel/geist-font) and Geist Mono typefaces in `src/fonts/`
+are licensed under the SIL Open Font License 1.1. Their licence texts are in the same directory.

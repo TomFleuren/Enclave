@@ -1,7 +1,6 @@
 import type { FormEvent } from 'react';
 import { useRef, useState } from 'react';
 import { ConfirmDialog } from '../components/Dialog';
-import { Icon } from '../components/Icon';
 import { PasswordInput } from '../components/PasswordInput';
 import { DecryptionError } from '../crypto/envelope';
 import { useVault } from '../state/vault-context';
@@ -39,12 +38,8 @@ export function UnlockScreen({ notice }: { notice: string | null }) {
   return (
     <AuthLayout
       title="Welcome back"
-      subtitle="Enter your master password to unlock the vault."
-      footer={
-        <button type="button" className="link-button" onClick={() => setConfirmingDelete(true)}>
-          Forgot your password? Delete this vault and start over
-        </button>
-      }
+      cardTitle="Unlock your vault"
+      cardText="Enter your master password. It is never stored and never leaves this browser."
     >
       <form onSubmit={onSubmit} className="stack">
         {notice && !error && <p className="callout">{notice}</p>}
@@ -70,13 +65,19 @@ export function UnlockScreen({ notice }: { notice: string | null }) {
 
         <button
           type="submit"
-          className="button button--primary button--large"
+          className="button button--large button--primary"
           disabled={busy || password === ''}
         >
-          <Icon name="unlock" />
           {busy ? 'Unlocking…' : 'Unlock'}
         </button>
       </form>
+
+      <p className="hint">
+        A forgotten master password cannot be recovered. The only way on is to start again.
+      </p>
+      <button type="button" className="link-button" onClick={() => setConfirmingDelete(true)}>
+        Delete this vault and start over
+      </button>
 
       {confirmingDelete && (
         <ConfirmDialog

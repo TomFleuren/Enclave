@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Brand } from '../components/Brand';
-import type { IconName } from '../components/Icon';
+import { Header } from '../components/Header';
 import { Icon } from '../components/Icon';
 import { useAutoLock } from '../hooks/useAutoLock';
 import { useUnlockedVault, useVault } from '../state/vault-context';
@@ -11,14 +10,14 @@ import { VaultView } from '../views/VaultView';
 
 type ViewId = 'vault' | 'authenticator' | 'generator' | 'settings';
 
-const VIEWS: { id: ViewId; label: string; icon: IconName }[] = [
-  { id: 'vault', label: 'Vault', icon: 'vault' },
-  { id: 'authenticator', label: 'Authenticator', icon: 'clock' },
-  { id: 'generator', label: 'Generator', icon: 'dice' },
-  { id: 'settings', label: 'Settings', icon: 'settings' },
+const VIEWS: { id: ViewId; label: string }[] = [
+  { id: 'vault', label: 'Vault' },
+  { id: 'authenticator', label: 'Authenticator' },
+  { id: 'generator', label: 'Generator' },
+  { id: 'settings', label: 'Settings' },
 ];
 
-/** The unlocked app: navigation on the side, the selected view beside it. */
+/** The unlocked app: the sections in the header, the selected one below it. */
 export function Workspace() {
   const { lock } = useVault();
   const { data } = useUnlockedVault();
@@ -30,42 +29,31 @@ export function Workspace() {
     onLock: lock,
   });
 
-  const codeCount = data.items.filter((item) => item.totp !== null).length;
-  const counts: Partial<Record<ViewId, number>> = {
-    vault: data.items.length,
-    authenticator: codeCount,
-  };
-
   return (
     <div className="workspace">
-      <aside className="sidebar glass">
-        <div className="sidebar__brand">
-          <Brand />
-        </div>
-
-        <nav className="sidebar__nav" aria-label="Sections">
-          {VIEWS.map(({ id, label, icon }) => (
-            <button
-              key={id}
-              type="button"
-              className={view === id ? 'nav-item is-active' : 'nav-item'}
-              aria-current={view === id ? 'page' : undefined}
-              onClick={() => setView(id)}
-            >
-              <Icon name={icon} size={20} />
-              <span className="nav-item__label">{label}</span>
-              {counts[id] !== undefined && counts[id] > 0 && (
-                <span className="nav-item__count">{counts[id]}</span>
-              )}
-            </button>
-          ))}
-        </nav>
-
-        <button type="button" className="nav-item nav-item--lock" onClick={() => lock()}>
-          <Icon name="lock" size={20} />
-          <span className="nav-item__label">Lock</span>
-        </button>
-      </aside>
+      <Header
+        nav={
+          <nav className="header__nav" aria-label="Sections">
+            {VIEWS.map(({ id, label }) => (
+              <button
+                key={id}
+                type="button"
+                className={view === id ? 'nav-item is-active' : 'nav-item'}
+                aria-current={view === id ? 'page' : undefined}
+                onClick={() => setView(id)}
+              >
+                {label}
+              </button>
+            ))}
+          </nav>
+        }
+        action={
+          <button type="button" className="pill-button" onClick={() => lock()}>
+            <Icon name="lock" size={16} />
+            Lock
+          </button>
+        }
+      />
 
       <main className="workspace__main">
         {view === 'vault' && <VaultView />}

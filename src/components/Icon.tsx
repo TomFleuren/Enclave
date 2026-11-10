@@ -22,23 +22,10 @@ const PATHS = {
       <path d="M9 9h.01M15 9h.01M12 12h.01M9 15h.01M15 15h.01" />
     </>
   ),
-  settings: (
-    <>
-      <path d="M4 7h10M18 7h2M4 17h2M10 17h10" />
-      <circle cx="16" cy="7" r="2" />
-      <circle cx="8" cy="17" r="2" />
-    </>
-  ),
   lock: (
     <>
       <rect x="5" y="11" width="14" height="9" rx="2.5" />
       <path d="M8 11V8a4 4 0 0 1 8 0v3" />
-    </>
-  ),
-  unlock: (
-    <>
-      <rect x="5" y="11" width="14" height="9" rx="2.5" />
-      <path d="M8 11V8a4 4 0 0 1 7.5-2" />
     </>
   ),
   shield: (
@@ -113,15 +100,9 @@ const PATHS = {
       <path d="M5 19h14" />
     </>
   ),
+  code: <path d="M9 8l-4 4 4 4M15 8l4 4-4 4" />,
   back: <path d="M15 5l-7 7 7 7" />,
-  check: <path d="M5 12.5l4.5 4.5L19 7.5" />,
   close: <path d="M6 6l12 12M18 6L6 18" />,
-  alert: (
-    <>
-      <path d="M12 4l9 15.5H3z" />
-      <path d="M12 10v4M12 17h.01" />
-    </>
-  ),
 } satisfies Record<string, ReactNode>;
 
 export type IconName = keyof typeof PATHS;

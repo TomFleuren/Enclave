@@ -2,6 +2,7 @@ import type { FormEvent } from 'react';
 import { useState } from 'react';
 import { ConfirmDialog, Dialog } from '../components/Dialog';
 import { Icon } from '../components/Icon';
+import { PageHead } from '../components/PageHead';
 import { PasswordInput } from '../components/PasswordInput';
 import { RestoreBackup } from '../components/RestoreBackup';
 import { StrengthMeter } from '../components/StrengthMeter';
@@ -105,11 +106,11 @@ function ChangePasswordDialog({ onClose }: { onClose: () => void }) {
           </p>
         )}
         <div className="dialog__actions">
-          <button type="button" className="button" onClick={onClose}>
-            Cancel
-          </button>
-          <button type="submit" className="button button--primary" disabled={busy}>
+          <button type="submit" className="button button--large button--primary" disabled={busy}>
             {busy ? 'Re-encrypting…' : 'Change password'}
+          </button>
+          <button type="button" className="button button--large button--ghost" onClick={onClose}>
+            Cancel
           </button>
         </div>
       </form>
@@ -134,113 +135,106 @@ export function SettingsView() {
   };
 
   return (
-    <div className="page page--narrow">
-      <header className="view-header">
-        <div>
-          <h1 className="view-title">Settings</h1>
-          <p className="view-subtitle">These are stored inside the encrypted vault.</p>
-        </div>
-      </header>
+    <div className="page page--aside">
+      <PageHead tag="settings" title="Settings">
+        These are stored inside the encrypted vault.
+      </PageHead>
 
-      <h2 className="section-title">Security</h2>
-      <section className="panel glass settings-group">
-        <label className="setting">
-          <span className="setting__text">
-            <span className="setting__label">Lock automatically</span>
-            <span className="setting__hint">When there has been no activity in this tab</span>
-          </span>
-          <select
-            className="select"
-            value={settings.autoLockMinutes}
-            onChange={(event) => change({ autoLockMinutes: Number(event.target.value) })}
-          >
-            {AUTO_LOCK_OPTIONS.map((minutes) => (
-              <option key={minutes} value={minutes}>
-                {autoLockLabel(minutes)}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="setting">
-          <span className="setting__text">
-            <span className="setting__label">Lock when the tab is hidden</span>
-            <span className="setting__hint">On switching tabs or minimising the window</span>
-          </span>
-          <input
-            className="switch"
-            type="checkbox"
-            role="switch"
-            checked={settings.lockOnHide}
-            onChange={(event) => change({ lockOnHide: event.target.checked })}
-          />
-        </label>
-
-        <label className="setting">
-          <span className="setting__text">
-            <span className="setting__label">Clear the clipboard</span>
-            <span className="setting__hint">After copying a password or a one-time code</span>
-          </span>
-          <select
-            className="select"
-            value={settings.clipboardClearSeconds}
-            onChange={(event) => change({ clipboardClearSeconds: Number(event.target.value) })}
-          >
-            {CLIPBOARD_CLEAR_OPTIONS.map((seconds) => (
-              <option key={seconds} value={seconds}>
-                {clipboardLabel(seconds)}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <div className="setting">
-          <span className="setting__text">
-            <span className="setting__label">Master password</span>
-            <span className="setting__hint">Re-encrypts the vault under a new key</span>
-          </span>
-          <button type="button" className="button" onClick={() => setChangingPassword(true)}>
-            Change
-          </button>
-        </div>
-      </section>
-
-      <h2 className="section-title">Backup</h2>
-      <section className="panel glass settings-group">
-        <div className="setting">
-          <span className="setting__text">
-            <span className="setting__label">Export an encrypted backup</span>
-            <span className="setting__hint">
-              A file that only opens with your current master password
+      <div className="page__body">
+        <h2 className="section-title">Security</h2>
+        <section className="card settings-group">
+          <label className="setting">
+            <span className="setting__text">
+              <span className="setting__label">Lock automatically</span>
+              <span className="setting__hint">When there has been no activity in this tab</span>
             </span>
-          </span>
-          <button type="button" className="button" onClick={() => downloadBackup(envelope)}>
-            <Icon name="download" />
-            Export
-          </button>
-        </div>
+            <select
+              className="select"
+              value={settings.autoLockMinutes}
+              onChange={(event) => change({ autoLockMinutes: Number(event.target.value) })}
+            >
+              {AUTO_LOCK_OPTIONS.map((minutes) => (
+                <option key={minutes} value={minutes}>
+                  {autoLockLabel(minutes)}
+                </option>
+              ))}
+            </select>
+          </label>
 
-        <div className="setting">
-          <span className="setting__text">
-            <span className="setting__label">Restore from a backup</span>
-            <span className="setting__hint">Replaces the vault that is in this browser</span>
-          </span>
-          <RestoreBackup label="Restore" replacesExisting />
-        </div>
-      </section>
+          <label className="setting">
+            <span className="setting__text">
+              <span className="setting__label">Lock when the tab is hidden</span>
+              <span className="setting__hint">On switching tabs or minimising the window</span>
+            </span>
+            <input
+              className="switch"
+              type="checkbox"
+              role="switch"
+              checked={settings.lockOnHide}
+              onChange={(event) => change({ lockOnHide: event.target.checked })}
+            />
+          </label>
 
-      <h2 className="section-title">Encryption</h2>
-      <section className="panel glass facts">
-        <dl className="facts__list">
+          <label className="setting">
+            <span className="setting__text">
+              <span className="setting__label">Clear the clipboard</span>
+              <span className="setting__hint">After copying a password or a one-time code</span>
+            </span>
+            <select
+              className="select"
+              value={settings.clipboardClearSeconds}
+              onChange={(event) => change({ clipboardClearSeconds: Number(event.target.value) })}
+            >
+              {CLIPBOARD_CLEAR_OPTIONS.map((seconds) => (
+                <option key={seconds} value={seconds}>
+                  {clipboardLabel(seconds)}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <div className="setting">
+            <span className="setting__text">
+              <span className="setting__label">Master password</span>
+              <span className="setting__hint">Re-encrypts the vault under a new key</span>
+            </span>
+            <button type="button" className="button button--ghost" onClick={() => setChangingPassword(true)}>
+              Change
+            </button>
+          </div>
+        </section>
+
+        <h2 className="section-title">Backup</h2>
+        <section className="card settings-group">
+          <div className="setting">
+            <span className="setting__text">
+              <span className="setting__label">Export an encrypted backup</span>
+              <span className="setting__hint">A file that only opens with your current master password</span>
+            </span>
+            <button type="button" className="button button--ghost" onClick={() => downloadBackup(envelope)}>
+              <Icon name="download" size={16} />
+              Export
+            </button>
+          </div>
+
+          <div className="setting">
+            <span className="setting__text">
+              <span className="setting__label">Restore from a backup</span>
+              <span className="setting__hint">Replaces the vault that is in this browser</span>
+            </span>
+            <RestoreBackup label="Restore" className="button button--ghost" replacesExisting />
+          </div>
+        </section>
+
+        <h2 className="section-title">Encryption</h2>
+        <dl className="facts">
           <div className="fact">
             <dt>Cipher</dt>
             <dd>AES-256-GCM</dd>
           </div>
           <div className="fact">
             <dt>Key derivation</dt>
-            <dd>
-              PBKDF2-HMAC-SHA-256, {envelope.kdf.iterations.toLocaleString('en-US')} iterations
-            </dd>
+            <dd>PBKDF2-HMAC-SHA-256, {envelope.kdf.iterations.toLocaleString('en-US')} iterations</dd>
           </div>
           <div className="fact">
             <dt>Stored</dt>
@@ -251,21 +245,25 @@ export function SettingsView() {
             <dd>{data.items.length}</dd>
           </div>
         </dl>
-      </section>
 
-      <h2 className="section-title">Danger zone</h2>
-      <section className="panel glass settings-group settings-group--danger">
-        <div className="setting">
-          <span className="setting__text">
-            <span className="setting__label">Delete this vault</span>
-            <span className="setting__hint">Erases everything from this browser, permanently</span>
-          </span>
-          <button type="button" className="button button--danger" onClick={() => setConfirmingDelete(true)}>
-            <Icon name="trash" />
-            Delete
-          </button>
-        </div>
-      </section>
+        <h2 className="section-title">Danger zone</h2>
+        <section className="card settings-group settings-group--danger">
+          <div className="setting">
+            <span className="setting__text">
+              <span className="setting__label">Delete this vault</span>
+              <span className="setting__hint">Erases everything from this browser, permanently</span>
+            </span>
+            <button
+              type="button"
+              className="button button--ghost button--warn"
+              onClick={() => setConfirmingDelete(true)}
+            >
+              <Icon name="trash" size={16} />
+              Delete
+            </button>
+          </div>
+        </section>
+      </div>
 
       {changingPassword && <ChangePasswordDialog onClose={() => setChangingPassword(false)} />}
 

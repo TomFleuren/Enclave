@@ -8,15 +8,31 @@
     <meta charset="UTF-8" />
     <title>Enclave banner</title>
     <style>
+      @font-face {
+        font-family: 'Geist';
+        font-weight: 100 900;
+        src: url('../src/fonts/geist-latin.woff2') format('woff2');
+      }
+
+      @font-face {
+        font-family: 'Geist Mono';
+        font-weight: 100 900;
+        src: url('../src/fonts/geist-mono-latin.woff2') format('woff2');
+      }
+
       :root {
-        --text: #eceef6;
-        --muted: #9aa0b6;
-        --faint: #636a82;
-        --accent: #8492ff;
-        --accent-strong: #5b6cff;
-        --border: rgb(255 255 255 / 0.1);
-        --sans: 'Inter', 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
-        --mono: 'Cascadia Code', 'SF Mono', Consolas, monospace;
+        --ink: #010521;
+        --muted: #868a9c;
+        --soft: #f3f4f6;
+        --dark: #101638;
+        --sky: #97e6ff;
+        --sky-ink: #002f8c;
+        --blue: #0055ff;
+        --lime: #def105;
+        --lime-ink: #394d00;
+        --orange: #ff3f1d;
+        --sans: 'Geist', sans-serif;
+        --mono: 'Geist Mono', monospace;
       }
 
       * {
@@ -33,39 +49,70 @@
         width: 1280px;
         height: 640px;
         overflow: hidden;
-        background:
-          radial-gradient(620px 460px at 14% 8%, rgb(91 108 255 / 0.42), transparent 66%),
-          radial-gradient(560px 440px at 92% 14%, rgb(168 85 247 / 0.3), transparent 64%),
-          radial-gradient(620px 420px at 72% 104%, rgb(34 211 238 / 0.2), transparent 66%),
-          radial-gradient(520px 400px at 6% 100%, rgb(99 102 241 / 0.26), transparent 64%),
-          #07080d;
-        color: var(--text);
-        font-family: var(--sans);
-        font-size: 14px;
-        line-height: 1.4;
+        background: var(--soft);
+        color: var(--ink);
+        font: 500 14px/20px var(--sans);
         -webkit-font-smoothing: antialiased;
       }
 
       .card {
         position: absolute;
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        background: rgb(255 255 255 / 0.055);
-        box-shadow:
-          inset 0 1px 0 rgb(255 255 255 / 0.08),
-          0 30px 60px -24px rgb(0 0 0 / 0.75);
-        backdrop-filter: blur(24px) saturate(150%);
+        width: 300px;
+        border-radius: 12px;
+        background: #fff;
       }
 
-      .title {
-        font-size: 16px;
-        font-weight: 700;
-        letter-spacing: -0.01em;
+      .label {
+        color: var(--muted);
+        font: 500 12px/20px var(--mono);
       }
 
       .muted {
         color: var(--muted);
-        font-size: 12.5px;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 18px;
+      }
+
+      .avatar {
+        display: grid;
+        flex: none;
+        place-items: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        font-weight: 600;
+      }
+
+      .navy {
+        background: var(--dark);
+        color: #fff;
+      }
+
+      .sky {
+        background: var(--sky);
+        color: var(--sky-ink);
+      }
+
+      .lime {
+        background: var(--lime);
+        color: var(--lime-ink);
+      }
+
+      .blue {
+        background: var(--blue);
+        color: #fff;
+      }
+
+      .orange {
+        background: var(--orange);
+        color: #fff;
+      }
+
+      .chip {
+        padding: 0 6px;
+        border-radius: 4px;
+        font: 500 12px/20px var(--mono);
       }
 
       /* Wordmark ---------------------------------------------------------- */
@@ -76,86 +123,70 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 22px;
-        padding-bottom: 8px;
-      }
-
-      .wordmark span {
-        /* Room for the tight tracking, so the gradient clip does not shave the last letter. */
-        padding: 0 14px 0 0;
-        background: linear-gradient(180deg, #c2c9ff 0%, #8492ff 46%, #5262ff 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        font-family: 'Arial Rounded MT Bold', 'Nunito', 'Segoe UI Black', var(--sans);
-        font-size: 138px;
-        font-weight: 800;
-        letter-spacing: -0.045em;
+        gap: 26px;
+        font-size: 124px;
+        font-weight: 500;
+        letter-spacing: -0.035em;
         line-height: 1;
-        filter: drop-shadow(0 18px 40px rgb(91 108 255 / 0.45));
       }
 
       .wordmark svg {
-        margin-top: 14px;
-        filter: drop-shadow(0 18px 40px rgb(91 108 255 / 0.45));
+        margin-top: 10px;
       }
 
-      /* Settings card ------------------------------------------------------ */
+      /* Settings ---------------------------------------------------------- */
 
       .settings {
-        top: -22px;
-        left: 112px;
-        width: 286px;
-        padding: 38px 22px 14px;
+        top: -20px;
+        left: 104px;
+        padding: 44px 20px 10px;
       }
 
       .row {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 11px 0;
-        font-weight: 500;
+        height: 44px;
       }
 
       .row + .row {
-        border-top: 1px solid rgb(255 255 255 / 0.07);
+        border-top: 1px solid rgb(1 5 33 / 0.08);
       }
 
       .toggle {
         position: relative;
-        width: 38px;
-        height: 22px;
-        border-radius: 999px;
-        background: rgb(255 255 255 / 0.12);
+        width: 36px;
+        height: 24px;
+        border-radius: 100px;
+        background: rgb(1 5 33 / 0.15);
       }
 
       .toggle::after {
         content: '';
         position: absolute;
-        top: 3px;
-        left: 3px;
+        top: 4px;
+        left: 4px;
         width: 16px;
         height: 16px;
         border-radius: 50%;
-        background: var(--muted);
+        background: #fff;
+        box-shadow: 0 0.5px 0.5px 0.5px rgb(1 5 35 / 0.2);
       }
 
       .toggle.on {
-        background: var(--accent-strong);
+        background: var(--blue);
       }
 
       .toggle.on::after {
-        left: 19px;
-        background: #fff;
+        left: 16px;
       }
 
-      /* One-time code card ------------------------------------------------- */
+      /* One-time code ------------------------------------------------------ */
 
       .otp {
-        top: -30px;
-        left: 452px;
-        width: 330px;
-        padding: 52px 22px 20px;
+        top: -20px;
+        left: 490px;
+        padding: 48px 28px 28px;
       }
 
       .account {
@@ -166,155 +197,95 @@
 
       .account > div {
         flex: 1;
-      }
-
-      .avatar {
-        display: grid;
-        place-items: center;
-        width: 38px;
-        height: 38px;
-        flex: none;
-        border-radius: 11px;
-        font-size: 16px;
-        font-weight: 700;
-      }
-
-      .avatar.blue {
-        border: 1px solid rgb(132 146 255 / 0.3);
-        background: linear-gradient(145deg, rgb(132 146 255 / 0.4), rgb(91 108 255 / 0.14));
-        color: #d5daff;
-      }
-
-      .avatar.violet {
-        border: 1px solid rgb(192 132 252 / 0.3);
-        background: linear-gradient(145deg, rgb(192 132 252 / 0.4), rgb(147 51 234 / 0.14));
-        color: #ead5ff;
-      }
-
-      .avatar.teal {
-        border: 1px solid rgb(45 212 191 / 0.3);
-        background: linear-gradient(145deg, rgb(45 212 191 / 0.36), rgb(13 148 136 / 0.14));
-        color: #c8fff5;
-      }
-
-      .avatar.amber {
-        border: 1px solid rgb(251 191 36 / 0.3);
-        background: linear-gradient(145deg, rgb(251 191 36 / 0.34), rgb(217 119 6 / 0.14));
-        color: #ffefc2;
-      }
-
-      .name {
-        font-weight: 600;
+        min-width: 0;
       }
 
       .digits {
-        margin-top: 14px;
-        color: #c3caff;
-        font-family: var(--mono);
-        font-size: 36px;
-        font-weight: 600;
-        letter-spacing: 0.05em;
+        margin-top: 20px;
+        font-size: 52px;
+        letter-spacing: -0.03em;
+        line-height: 1;
       }
 
-      /* Code snippet ------------------------------------------------------- */
+      /* Search ------------------------------------------------------------- */
 
-      .snippet {
-        top: -26px;
-        left: 836px;
-        width: 348px;
-        padding: 44px 20px 18px;
-        font-family: var(--mono);
-        font-size: 11.5px;
-        line-height: 1.75;
-        white-space: pre;
-        color: #c9cee0;
-      }
-
-      .snippet .ln {
-        display: inline-block;
-        width: 22px;
-        color: var(--faint);
-      }
-
-      .snippet .kw {
-        color: #c4a7ff;
-      }
-
-      .snippet .fn {
-        color: #8fb4ff;
-      }
-
-      .snippet .str {
-        color: #9be3b1;
-      }
-
-      .snippet .num {
-        color: #f5c078;
-      }
-
-      .snippet .hl {
-        display: block;
-        margin: 0 -20px;
-        padding: 0 20px;
-        background: rgb(132 146 255 / 0.16);
-      }
-
-      .pill {
+      .search {
         position: absolute;
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        padding: 6px 13px;
-        border-radius: 999px;
-        font-size: 12.5px;
-        font-weight: 600;
+        top: 32px;
+        left: 876px;
+        width: 300px;
+        height: 36px;
+        padding: 6px 16px;
+        border-radius: 1000px;
+        background: #e6e8ec;
+        color: var(--muted);
+        font: 400 14px/24px var(--mono);
       }
 
-      .pill.green {
-        top: 196px;
-        left: 848px;
-        border: 1px solid rgb(74 222 128 / 0.28);
-        background: rgb(74 222 128 / 0.12);
-        color: #9af0b8;
+      .results {
+        position: absolute;
+        top: 88px;
+        left: 876px;
+        display: grid;
+        gap: 12px;
+        font: 500 12px/20px var(--mono);
+        white-space: nowrap;
       }
 
-      .pill.dark {
-        top: 196px;
-        left: 1052px;
-        border: 1px solid var(--border);
-        background: rgb(20 22 32 / 0.92);
-        color: var(--text);
+      .results div {
+        display: flex;
+        gap: 10px;
       }
 
-      /* Generator card ----------------------------------------------------- */
+      .results div:nth-child(4) {
+        opacity: 0.45;
+      }
+
+      .results .kind {
+        width: 40px;
+        color: var(--muted);
+      }
+
+      .results .lime-text {
+        color: var(--lime-ink);
+      }
+
+      .results .sky-text {
+        color: var(--sky-ink);
+      }
+
+      .results .blue-text {
+        color: var(--blue);
+      }
+
+      .results .orange-text {
+        color: var(--orange);
+      }
+
+      /* Generator ---------------------------------------------------------- */
 
       .generator {
-        top: 446px;
-        left: 112px;
-        width: 286px;
-        height: 260px;
-        padding: 20px 22px;
+        top: 448px;
+        left: 104px;
+        height: 240px;
+        padding: 20px;
       }
 
       .password {
-        margin-top: 14px;
+        margin-top: 10px;
         padding: 14px;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: rgb(0 0 0 / 0.3);
-        font-family: var(--mono);
-        font-size: 15px;
-        line-height: 1.5;
-        letter-spacing: 0.02em;
+        border-radius: 8px;
+        background: var(--soft);
+        font: 500 17px/26px var(--mono);
         word-break: break-all;
       }
 
       .password .d {
-        color: #8fb4ff;
+        color: var(--blue);
       }
 
       .password .s {
-        color: #f0a6ff;
+        color: var(--orange);
       }
 
       .bars {
@@ -326,122 +297,68 @@
 
       .bars i {
         height: 4px;
-        border-radius: 999px;
-        background: #4ade80;
+        border-radius: 2px;
+        background: var(--ink);
       }
 
       /* Unlock ------------------------------------------------------------- */
 
       .unlock {
-        top: 446px;
-        left: 452px;
-        width: 330px;
+        position: absolute;
+        top: 448px;
+        left: 490px;
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 10px 10px 10px 20px;
-        border-radius: 999px;
-        color: var(--muted);
+        width: 300px;
+        height: 56px;
+        padding: 7px 7px 7px 22px;
+        border-radius: 1000px;
+        background: #fff;
       }
 
       .unlock .dots {
         flex: 1;
-        letter-spacing: 0.22em;
+        font-size: 16px;
+        letter-spacing: 0.2em;
       }
 
       .unlock .go {
         display: grid;
         place-items: center;
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        background: linear-gradient(180deg, #7684ff, var(--accent-strong));
-        color: #fff;
-      }
-
-      .entry {
-        top: 522px;
-        left: 452px;
-        width: 330px;
-        height: 200px;
-        padding: 18px 20px;
-      }
-
-      .button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        height: 36px;
-        margin-top: 16px;
-        border-radius: 10px;
-        background: linear-gradient(180deg, #7684ff, var(--accent-strong));
-        box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25);
+        height: 42px;
+        padding: 0 18px;
+        border-radius: 1000px;
+        background: var(--ink);
         color: #fff;
         font-size: 13px;
-        font-weight: 600;
+      }
+
+      .facts {
+        position: absolute;
+        top: 528px;
+        left: 490px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 300px;
       }
 
       /* Vault list --------------------------------------------------------- */
 
       .vault {
-        top: 430px;
-        left: 836px;
-        width: 348px;
-        height: 280px;
-        padding: 18px 18px 0;
-      }
-
-      .vault header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .small-button {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 5px 11px;
-        border-radius: 8px;
-        background: linear-gradient(180deg, #7684ff, var(--accent-strong));
-        color: #fff;
-        font-size: 12px;
-        font-weight: 600;
-      }
-
-      .search {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin: 12px 0 8px;
-        padding: 8px 12px;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        background: rgb(0 0 0 / 0.3);
-        color: var(--faint);
-        font-size: 13px;
+        top: 448px;
+        left: 876px;
+        height: 240px;
+        padding: 8px;
       }
 
       .vault .account {
-        padding: 8px 6px;
-        border-radius: 12px;
+        padding: 10px 12px;
+        border-radius: 10px;
       }
 
       .vault .account.selected {
-        border: 1px solid var(--border);
-        background: rgb(255 255 255 / 0.08);
-      }
-
-      .badge {
-        padding: 2px 7px;
-        border: 1px solid rgb(132 146 255 / 0.28);
-        border-radius: 999px;
-        background: rgb(132 146 255 / 0.16);
-        color: #b9c2ff;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
+        background: var(--soft);
       }
     </style>
   </head>
@@ -449,26 +366,26 @@
     <div class="banner">
       <!-- Top row -->
       <div class="card settings">
-        <div class="title">Security</div>
-        <div class="row" style="margin-top: 6px">Lock automatically <span class="toggle on"></span></div>
+        <div class="label">SECURITY</div>
+        <div class="row">Lock automatically <span class="toggle on"></span></div>
         <div class="row">Lock when hidden <span class="toggle on"></span></div>
         <div class="row">Clear clipboard <span class="toggle"></span></div>
       </div>
 
       <div class="card otp">
         <div class="account">
-          <span class="avatar blue">G</span>
+          <span class="avatar navy">G</span>
           <div>
-            <div class="name">GitHub</div>
+            <div>GitHub</div>
             <div class="muted">ada@example.com</div>
           </div>
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke-width="2.5">
-            <circle cx="12" cy="12" r="9" stroke="rgb(255 255 255 / 0.12)" />
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.5">
+            <circle cx="12" cy="12" r="9" stroke="rgb(1 5 33 / 0.12)" />
             <circle
               cx="12"
               cy="12"
               r="9"
-              stroke="#8492ff"
+              stroke="#0055ff"
               stroke-linecap="round"
               stroke-dasharray="56.5"
               stroke-dashoffset="17"
@@ -479,99 +396,74 @@
         <div class="digits">482 913</div>
       </div>
 
-      <div class="card snippet"><span class="ln">4</span><span class="kw">const</span> key = <span class="kw">await</span> crypto.subtle.<span class="fn">deriveKey</span>(
-<span class="ln">5</span>  { name: <span class="str">'PBKDF2'</span>, hash: <span class="str">'SHA-256'</span>,
-<span class="hl"><span class="ln">6</span>    salt, iterations: <span class="num">600_000</span> },</span><span class="ln">7</span>  baseKey,
-<span class="hl"><span class="ln">8</span>  { name: <span class="str">'AES-GCM'</span>, length: <span class="num">256</span> },</span><span class="ln">9</span>  <span class="kw">false</span>, [<span class="str">'encrypt'</span>, <span class="str">'decrypt'</span>]);</div>
-
-      <span class="pill green">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6z" /></svg>
-        Zero network requests
-      </span>
-      <span class="pill dark">Password copied</span>
+      <div class="search">Search</div>
+      <div class="results">
+        <div><span class="kind">login</span><span class="chip navy">GitHub</span><span>ada@example.com</span></div>
+        <div><span class="kind">login</span><span class="chip sky">Cloudflare</span><span class="sky-text">ada@example.com</span></div>
+        <div><span class="kind">code</span><span class="chip lime">Figma</span><span class="lime-text">848 639</span></div>
+        <div><span class="kind">login</span><span class="chip orange">Home router</span><span class="orange-text">admin</span></div>
+      </div>
 
       <!-- Wordmark -->
       <div class="wordmark">
-        <svg width="112" height="112" viewBox="0 0 64 64" fill="none">
-          <defs>
-            <linearGradient id="mark" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#c2c9ff" />
-              <stop offset="0.46" stop-color="#8492ff" />
-              <stop offset="1" stop-color="#5262ff" />
-            </linearGradient>
-          </defs>
+        <svg width="104" height="104" viewBox="0 0 24 24">
           <path
-            d="M32 8l20 7.5V31c0 13-8.2 22.8-20 26-11.8-3.2-20-13-20-26V15.5z"
-            stroke="url(#mark)"
-            stroke-width="6.5"
-            stroke-linejoin="round"
+            fill="#010521"
+            fill-rule="evenodd"
+            d="M8 2h8a6 6 0 0 1 6 6v8a6 6 0 0 1-6 6H8a6 6 0 0 1-6-6V8a6 6 0 0 1 6-6zm4 5.25a2.75 2.75 0 0 0-1.45 5.09L9.9 16.6a.6.6 0 0 0 .6.7h3a.6.6 0 0 0 .6-.7l-.65-4.26A2.75 2.75 0 0 0 12 7.25z"
           />
-          <circle cx="32" cy="28" r="6" fill="url(#mark)" />
-          <path d="M32 32v10" stroke="url(#mark)" stroke-width="6" stroke-linecap="round" />
         </svg>
-        <span>enclave</span>
+        <span>Enclave</span>
       </div>
 
       <!-- Bottom row -->
       <div class="card generator">
-        <div class="title">Generator</div>
-        <div class="muted">20 characters · 128 bits</div>
+        <div class="label">GENERATOR</div>
         <div class="password">kV<span class="d">7</span><span class="s">#</span>tq<span class="d">2</span><span class="s">!</span>Zp<span class="d">9</span><span class="s">$</span>Lm<span class="d">4</span><span class="s">&amp;</span>Wx<span class="d">8</span><span class="s">*</span></div>
         <div class="bars"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="muted" style="margin-top: 10px">128 bits of entropy</div>
       </div>
 
-      <div class="card unlock">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="5" y="11" width="14" height="9" rx="2.5" />
-          <path d="M8 11V8a4 4 0 0 1 8 0v3" />
-        </svg>
-        <span class="dots">••••••••••••••</span>
-        <span class="go">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
-        </span>
+      <div class="unlock">
+        <span class="dots">••••••••••••</span>
+        <span class="go">Unlock</span>
       </div>
 
-      <div class="card entry">
-        <div class="account">
-          <span class="avatar violet">P</span>
-          <div>
-            <div class="name">Proton Mail</div>
-            <div class="muted">Password, username and one-time code</div>
-          </div>
-        </div>
-        <div class="button">Copy password</div>
+      <div class="facts">
+        <span class="chip sky">AES-256-GCM</span>
+        <span class="chip lime">PBKDF2</span>
+        <span class="chip navy">no network requests</span>
       </div>
 
       <div class="card vault">
-        <header>
-          <div class="title">Vault</div>
-          <span class="small-button">+ New item</span>
-        </header>
-        <div class="search">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5" /><path d="M16 16l4 4" /></svg>
-          Search
-        </div>
         <div class="account selected">
-          <span class="avatar blue">G</span>
+          <span class="avatar navy">G</span>
           <div>
-            <div class="name">GitHub</div>
+            <div>GitHub</div>
             <div class="muted">ada@example.com</div>
           </div>
-          <span class="badge">2FA</span>
+          <span class="chip sky">2FA</span>
         </div>
         <div class="account">
-          <span class="avatar teal">C</span>
+          <span class="avatar sky">C</span>
           <div>
-            <div class="name">Cloudflare</div>
+            <div>Cloudflare</div>
             <div class="muted">ada@example.com</div>
           </div>
-          <span class="badge">2FA</span>
+          <span class="chip sky">2FA</span>
         </div>
         <div class="account">
-          <span class="avatar amber">F</span>
+          <span class="avatar lime">F</span>
           <div>
-            <div class="name">Figma</div>
+            <div>Figma</div>
             <div class="muted">ada@example.com</div>
+          </div>
+        </div>
+        <div class="account">
+          <span class="avatar orange">H</span>
+          <div>
+            <div>Home router</div>
+            <div class="muted">admin</div>
           </div>
         </div>
       </div>

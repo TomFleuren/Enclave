@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
+import { AuthLayout } from './screens/AuthLayout';
 import { FeedbackProvider } from './state/FeedbackProvider';
 import { VaultProvider } from './state/VaultProvider';
 import { createLocalStorage, createMemoryStorage } from './vault/storage';
@@ -28,15 +29,11 @@ function render(storage: VaultStorage, initial?: UnlockedVault) {
 
 function renderUnsupported() {
   root.render(
-    <main className="auth">
-      <div className="auth__card glass">
-        <h1 className="auth__title">Enclave cannot run here</h1>
-        <p className="auth__subtitle">
-          This page needs the Web Crypto API, which browsers only provide on secure origins. Open
-          Enclave over HTTPS or from localhost, in a current browser.
-        </p>
-      </div>
-    </main>,
+    <AuthLayout
+      title="Enclave cannot run here"
+      cardTitle="A secure page is required"
+      cardText="This page needs the Web Crypto API, which browsers only provide on secure origins. Open Enclave over HTTPS or from localhost, in a current browser."
+    />,
   );
 }
 

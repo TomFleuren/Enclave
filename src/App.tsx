@@ -13,16 +13,13 @@ function UnreadableScreen({ message }: { message: string }) {
   const [confirming, setConfirming] = useState(false);
 
   return (
-    <AuthLayout
-      title="This vault cannot be read"
-      subtitle={message}
-    >
+    <AuthLayout title="This vault cannot be read" cardTitle="Nothing has been deleted" cardText={message}>
       <div className="stack">
-        <p className="callout callout--warning">
-          Nothing has been deleted. If a newer version of Enclave wrote this vault, open it with
-          that version. Otherwise you can remove it and start again.
+        <p className="callout">
+          If a newer version of Enclave wrote this vault, open it with that version. Otherwise you
+          can remove it and start again.
         </p>
-        <button type="button" className="button button--danger button--large" onClick={() => setConfirming(true)}>
+        <button type="button" className="button button--large button--danger" onClick={() => setConfirming(true)}>
           <Icon name="trash" />
           Delete stored data
         </button>

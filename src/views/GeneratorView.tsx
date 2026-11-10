@@ -1,5 +1,7 @@
+import type { CSSProperties } from 'react';
 import { useState } from 'react';
 import { Icon } from '../components/Icon';
+import { PageHead } from '../components/PageHead';
 import type { GeneratorOptions } from '../crypto/password';
 import {
   generatePassword,
@@ -41,93 +43,99 @@ export function GeneratorView() {
   const enabledCount = CHARACTER_OPTIONS.filter(({ key }) => options[key]).length;
   const bits = Math.round(generatorEntropyBits(options));
 
+  // How far along its track the length slider is, for the filled part of the track.
+  const lengthFill =
+    ((options.length - GENERATOR_MIN_LENGTH) / (GENERATOR_MAX_LENGTH - GENERATOR_MIN_LENGTH)) * 100;
+
   return (
-    <div className="page page--narrow">
-      <header className="view-header">
-        <div>
-          <h1 className="view-title">Generator</h1>
-          <p className="view-subtitle">
-            Random passwords from your browser&apos;s cryptographic random number generator.
-          </p>
-        </div>
-      </header>
+    <div className="page page--aside">
+      <PageHead tag="generator" title="Generator">
+        Random passwords from your browser&apos;s cryptographic random number generator.
+      </PageHead>
 
-      <section className="panel glass generator">
-        <output className="generator__output selectable" aria-label="Generated password">
-          {[...password].map((character, index) => (
-            <span key={index} className={characterClass(character)}>
-              {character}
+      <div className="page__body">
+        <section className="card generator">
+          <output className="generator__output selectable" aria-label="Generated password">
+            {[...password].map((character, index) => (
+              <span key={index} className={characterClass(character)}>
+                {character}
+              </span>
+            ))}
+          </output>
+
+          <div className="generator__actions">
+            <span className="generator__entropy" title="How hard this password is to guess">
+              {bits} bits of entropy
             </span>
-          ))}
-        </output>
+            <button
+              type="button"
+              className="button button--ghost"
+              onClick={() => setPassword(generatePassword(options))}
+            >
+              <Icon name="refresh" size={16} />
+              Regenerate
+            </button>
+            <button
+              type="button"
+              className="button button--primary"
+              onClick={() => void copy(password, 'Password', { sensitive: true })}
+            >
+              <Icon name="copy" size={16} />
+              Copy
+            </button>
+          </div>
+        </section>
 
-        <div className="generator__actions">
-          <span className="generator__entropy" title="How hard this password is to guess">
-            {bits} bits of entropy
-          </span>
-          <button type="button" className="button" onClick={() => setPassword(generatePassword(options))}>
-            <Icon name="refresh" />
-            Regenerate
-          </button>
-          <button
-            type="button"
-            className="button button--primary"
-            onClick={() => void copy(password, 'Password', { sensitive: true })}
-          >
-            <Icon name="copy" />
-            Copy
-          </button>
-        </div>
-      </section>
-
-      <section className="panel glass settings-group">
-        <label className="setting setting--stacked">
-          <span className="setting__text">
-            <span className="setting__label">Length</span>
-            <span className="setting__value">{options.length} characters</span>
-          </span>
-          <input
-            className="slider"
-            type="range"
-            min={GENERATOR_MIN_LENGTH}
-            max={GENERATOR_MAX_LENGTH}
-            value={options.length}
-            onChange={(event) => update({ ...options, length: Number(event.target.value) })}
-          />
-        </label>
-
-        {CHARACTER_OPTIONS.map(({ key, label, sample }) => (
-          <label key={key} className="setting">
+        <section className="card settings-group">
+          <label className="setting setting--stacked">
             <span className="setting__text">
-              <span className="setting__label">{label}</span>
-              <span className="setting__hint">{sample}</span>
+              <span className="setting__label">Length</span>
+              <span className="setting__value">{options.length} characters</span>
+            </span>
+            <input
+              className="slider"
+              type="range"
+              min={GENERATOR_MIN_LENGTH}
+              max={GENERATOR_MAX_LENGTH}
+              value={options.length}
+              style={{ '--fill': `${lengthFill}%` } as CSSProperties}
+              onChange={(event) => update({ ...options, length: Number(event.target.value) })}
+            />
+          </label>
+
+          {CHARACTER_OPTIONS.map(({ key, label, sample }) => (
+            <label key={key} className="setting">
+              <span className="setting__text">
+                <span className="setting__label">{label}</span>
+                <span className="setting__hint">{sample}</span>
+              </span>
+              <input
+                className="switch"
+                type="checkbox"
+                role="switch"
+                checked={options[key]}
+                // The last remaining set cannot be turned off.
+                disabled={options[key] && enabledCount === 1}
+                onChange={(event) => update({ ...options, [key]: event.target.checked })}
+              />
+            </label>
+          ))}
+
+          <label className="setting">
+            <span className="setting__text">
+              <span className="setting__label">Avoid look-alike characters</span>
+              <span className="setting__hint">Leaves out l, I, 1, O, 0 and o</span>
             </span>
             <input
               className="switch"
               type="checkbox"
               role="switch"
-              checked={options[key]}
-              // The last remaining set cannot be turned off.
-              disabled={options[key] && enabledCount === 1}
-              onChange={(event) => update({ ...options, [key]: event.target.checked })}
+              checked={options.avoidAmbiguous}
+              onChange={(event) => update({ ...options, avoidAmbiguous: event.target.checked })}
             />
           </label>
-        ))}
-
-        <label className="setting">
-          <span className="setting__text">
-            <span className="setting__label">Avoid look-alike characters</span>
-            <span className="setting__hint">Leaves out l, I, 1, O, 0 and o</span>
-          </span>
-          <input
-            className="switch"
-            type="checkbox"
-            role="switch"
-            checked={options.avoidAmbiguous}
-            onChange={(event) => update({ ...options, avoidAmbiguous: event.target.checked })}
-          />
-        </label>
-      </section>
+        </section>
+      </div>
     </div>
   );
 }

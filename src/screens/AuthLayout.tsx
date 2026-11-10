@@ -1,27 +1,36 @@
 import type { ReactNode } from 'react';
-import { Brand } from '../components/Brand';
+import { Header, SourceLink } from '../components/Header';
 
 interface AuthLayoutProps {
+  /** The page heading. */
   title: string;
-  subtitle: ReactNode;
-  children: ReactNode;
-  footer?: ReactNode;
+  cardTitle: string;
+  cardText: ReactNode;
+  /** The form, or whatever else belongs in the card. */
+  children?: ReactNode;
+  /** Shown below the card, across the full width of the page. */
+  after?: ReactNode;
 }
 
-/** The centred card shared by the setup and unlock screens. */
-export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProps) {
+/** The page shared by every screen that is shown while the vault is locked. */
+export function AuthLayout({ title, cardTitle, cardText, children, after }: AuthLayoutProps) {
   return (
-    <main className="auth">
-      <div className="auth__card glass">
-        <Brand size={32} />
-        <h1 className="auth__title">{title}</h1>
-        <p className="auth__subtitle">{subtitle}</p>
-        {children}
-      </div>
-      {footer && <div className="auth__footer">{footer}</div>}
-      <p className="auth__note">
-        Encrypted in this browser with AES-256-GCM. Nothing is sent anywhere.
-      </p>
-    </main>
+    <>
+      <Header action={<SourceLink />} />
+      <main className="auth">
+        <div className="auth__column">
+          <h1 className="auth__title">{title}</h1>
+          <section className="card auth__card">
+            <h2 className="auth__card-title">{cardTitle}</h2>
+            <p className="auth__card-text">{cardText}</p>
+            {children}
+          </section>
+          <p className="hint auth__note">
+            Encrypted in this browser with AES-256-GCM. Nothing is sent anywhere.
+          </p>
+        </div>
+        {after}
+      </main>
+    </>
   );
 }

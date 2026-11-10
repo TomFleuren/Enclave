@@ -12,6 +12,8 @@ import { PasswordInput } from './PasswordInput';
 interface RestoreBackupProps {
   label: string;
   className?: string;
+  /** Whether the button carries the upload icon. A plain text link does not. */
+  showIcon?: boolean;
   /** Tells the person an existing vault is about to be replaced. */
   replacesExisting: boolean;
 }
@@ -23,7 +25,12 @@ interface RestoreBackupProps {
  * in the browser is touched, so a wrong file or a forgotten password can
  * never cost someone the vault they already have.
  */
-export function RestoreBackup({ label, className = 'button', replacesExisting }: RestoreBackupProps) {
+export function RestoreBackup({
+  label,
+  className = 'button',
+  showIcon = true,
+  replacesExisting,
+}: RestoreBackupProps) {
   const { restore } = useVault();
   const { notify } = useFeedback();
   const fileInput = useRef<HTMLInputElement>(null);
@@ -71,7 +78,7 @@ export function RestoreBackup({ label, className = 'button', replacesExisting }:
   return (
     <>
       <button type="button" className={className} onClick={() => fileInput.current?.click()}>
-        <Icon name="upload" />
+        {showIcon && <Icon name="upload" />}
         {label}
       </button>
       <input
@@ -110,15 +117,19 @@ export function RestoreBackup({ label, className = 'button', replacesExisting }:
               </p>
             )}
             <div className="dialog__actions">
-              <button type="button" className="button" onClick={close}>
-                Cancel
-              </button>
               <button
                 type="submit"
-                className={replacesExisting ? 'button button--danger' : 'button button--primary'}
+                className={
+                  replacesExisting
+                    ? 'button button--large button--danger'
+                    : 'button button--large button--primary'
+                }
                 disabled={busy || password === ''}
               >
                 {busy ? 'Decrypting…' : replacesExisting ? 'Replace vault' : 'Restore'}
+              </button>
+              <button type="button" className="button button--large button--ghost" onClick={close}>
+                Cancel
               </button>
             </div>
           </form>
